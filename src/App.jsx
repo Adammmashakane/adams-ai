@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const [quote, setQuote] = useState("Click below to see an AI-inspired quote!");
+  const [quote, setQuote] = useState("Click the button to generate a quote!");
 
   const quotes = [
     "AI doesn’t replace humans — it amplifies them.",
@@ -30,10 +30,11 @@ export default function App() {
         textAlign: "center",
       }}
     >
-      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🧠 Adam’s AI</h1>
-      <p style={{ fontSize: "1.1rem", color: "#4b5563", marginBottom: "2rem", padding: "0 1rem" }}>
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🤖 Adam’s AI</h1>
+      <p style={{ fontSize: "1.1rem", color: "#4b5563", marginBottom: "2rem", padding: "0 20px" }}>
         {quote}
       </p>
+
       <button
         onClick={generateQuote}
         style={{
@@ -48,7 +49,14 @@ export default function App() {
       >
         Generate Quote
       </button>
-      <small style={{ position: "absolute", bottom: "10px", color: "#9ca3af" }}>
+
+      <small
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          color: "#9ca3af",
+        }}
+      >
         © 2025 Adam’s AI
       </small>
     </div>
