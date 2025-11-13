@@ -1,28 +1,56 @@
 import React, { useState, useEffect } from "react";
 
 export default function App() {
+  const [category, setCategory] = useState("ai");
   const [quote, setQuote] = useState("Click the button to generate a quote!");
   const [animateQuote, setAnimateQuote] = useState(false);
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("adamDarkMode") === "true"
   );
 
-  const quotes = [
-    "AI doesn’t replace humans — it amplifies them.",
-    "Innovation begins when curiosity meets code.",
-    "Your imagination is the intelligence behind AI.",
-    "The future belongs to those who learn from machines, not fear them.",
-    "Data teaches AI — creativity teaches progress."
-  ];
+  // QUOTES BY CATEGORY
+  const quoteCategories = {
+    ai: [
+      "AI doesn’t replace humans — it amplifies them.",
+      "Your imagination is the intelligence behind AI.",
+      "AI is the engine; creativity is the driver.",
+      "Humans teach; AI learns.",
+    ],
+    motivation: [
+      "Small steps create big results.",
+      "Success begins with self-belief.",
+      "Discipline beats motivation.",
+      "Your future is built by what you do today.",
+    ],
+    business: [
+      "Think big. Start small. Move fast.",
+      "Execution is the real strategy.",
+      "Money follows value — create value.",
+      "Winners focus on solutions, not excuses.",
+    ],
+    life: [
+      "Your thoughts shape your reality.",
+      "Peace is the new success.",
+      "What you don’t fix, you repeat.",
+      "Growth begins outside your comfort zone.",
+    ],
+    coding: [
+      "First solve the problem, then write the code.",
+      "Good code is simple, not clever.",
+      "Bugs are opportunities to learn.",
+      "Code is poetry for machines.",
+    ],
+  };
 
   const generateQuote = () => {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const list = quoteCategories[category];
+    const randomIndex = Math.floor(Math.random() * list.length);
 
     setAnimateQuote(false);
     setTimeout(() => {
-      setQuote(quotes[randomIndex]);
+      setQuote(list[randomIndex]);
       setAnimateQuote(true);
-    }, 100);
+    }, 120);
   };
 
   useEffect(() => {
@@ -33,7 +61,6 @@ export default function App() {
     localStorage.setItem("adamDarkMode", darkMode);
   }, [darkMode]);
 
-  // WhatsApp share link
   const shareToWhatsApp = () => {
     const message = encodeURIComponent(`🧠 Adam's AI says:\n\n"${quote}"`);
     const link = `https://wa.me/?text=${message}`;
@@ -57,10 +84,9 @@ export default function App() {
         fontFamily: "system-ui, -apple-system",
         transition: "all 0.4s ease-in-out",
         position: "relative",
-        textAlign: "center",
+        textAlign: "center"
       }}
     >
-      {/* Animated gradient keyframes */}
       <style>{`
         @keyframes gradientMove {
           0% { background-position: 0% 50%; }
@@ -73,7 +99,7 @@ export default function App() {
         }
       `}</style>
 
-      {/* Spinning robot icon */}
+      {/* Robot Icon */}
       <div
         style={{
           width: "70px",
@@ -89,7 +115,7 @@ export default function App() {
         />
       </div>
 
-      {/* Profile picture */}
+      {/* Profile */}
       <img
         src="https://i.postimg.cc/59TPb2S4/ai-avatar.png"
         alt="profile"
@@ -105,7 +131,7 @@ export default function App() {
         }}
       />
 
-      {/* Dark mode toggle */}
+      {/* Dark/Light toggle */}
       <button
         onClick={() => setDarkMode(!darkMode)}
         style={{
@@ -127,22 +153,45 @@ export default function App() {
 
       <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🤖 Adam’s AI</h1>
 
-      {/* Quote animation */}
+      {/* Category Selector */}
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        style={{
+          padding: "10px 16px",
+          borderRadius: "10px",
+          border: "none",
+          marginBottom: "15px",
+          fontSize: "1rem",
+          cursor: "pointer",
+          backgroundColor: darkMode ? "#334155" : "#e2e8f0",
+          color: darkMode ? "#f1f5f9" : "#1e293b",
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
+        <option value="ai">AI Wisdom</option>
+        <option value="motivation">Motivation</option>
+        <option value="business">Business / Hustle</option>
+        <option value="life">Life Lessons</option>
+        <option value="coding">Coding Quotes</option>
+      </select>
+
+      {/* QUOTE */}
       <p
         style={{
           fontSize: "1.2rem",
           maxWidth: "500px",
           padding: "0 20px",
           opacity: animateQuote ? 1 : 0,
-          transform: animateQuote ? "translateY(0px)" : "translateY(10px)",
+          transform: animateQuote ? "translateY(0)" : "translateY(10px)",
           color: darkMode ? "#d1d5db" : "#4b5563",
-          transition: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          transition: "all 0.6s ease",
         }}
       >
         {quote}
       </p>
 
-      {/* Generate Quote button */}
+      {/* Generate Button */}
       <button
         onClick={generateQuote}
         style={{
@@ -155,25 +204,23 @@ export default function App() {
           cursor: "pointer",
           marginBottom: "10px",
           boxShadow: "0 6px 16px rgba(99,102,241,0.25)",
-          transition: "all 0.3s ease",
         }}
       >
         Generate Quote
       </button>
 
-      {/* Share to WhatsApp */}
+      {/* WhatsApp Share */}
       <button
         onClick={shareToWhatsApp}
         style={{
           backgroundColor: "#22c55e",
           color: "#fff",
           padding: "10px 24px",
-          borderRadius: "8px",
+          borderRadius: "10px",
           border: "none",
           fontSize: "1rem",
           cursor: "pointer",
           boxShadow: "0 6px 16px rgba(34,197,94,0.3)",
-          transition: "all 0.3s ease",
         }}
       >
         Share to WhatsApp 📤
