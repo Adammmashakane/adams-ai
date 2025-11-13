@@ -3,19 +3,21 @@ import React, { useState, useEffect } from "react";
 export default function App() {
   const [quote, setQuote] = useState("Click the button to generate a quote!");
   const [animateQuote, setAnimateQuote] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("adamDarkMode") === "true"
+  );
 
   const quotes = [
     "AI doesn’t replace humans — it amplifies them.",
     "Innovation begins when curiosity meets code.",
     "Your imagination is the intelligence behind AI.",
     "The future belongs to those who learn from machines, not fear them.",
-    "Data teaches AI — creativity teaches progress.",
+    "Data teaches AI — creativity teaches progress."
   ];
 
   const generateQuote = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
-    
-    // Trigger animation
+
     setAnimateQuote(false);
     setTimeout(() => {
       setQuote(quotes[randomIndex]);
@@ -23,80 +25,112 @@ export default function App() {
     }, 100);
   };
 
-  // Trigger fade-in of entire page
   useEffect(() => {
     document.body.style.opacity = 1;
   }, []);
+
+  // Save dark mode preference
+  useEffect(() => {
+    localStorage.setItem("adamDarkMode", darkMode);
+  }, [darkMode]);
 
   return (
     <div
       style={{
         height: "100vh",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        backgroundColor: "#f5f7fa",
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont",
-        textAlign: "center",
-        color: "#111827",
-        transition: "opacity 1s ease-in-out",
+        backgroundColor: darkMode ? "#111827" : "#f5f7fa",
+        color: darkMode ? "#f3f4f6" : "#111827",
+        fontFamily: "system-ui, -apple-system",
+        transition: "all 0.4s ease-in-out",
+        position: "relative",
+        textAlign: "center"
       }}
     >
-      <h1 style={{ fontSize: "2.2rem", marginBottom: "1rem" }}>🤖 Adam’s AI</h1>
+      {/* Profile picture top right */}
+      <img
+        src="https://i.postimg.cc/59TPb2S4/ai-avatar.png"
+        alt="profile"
+        style={{
+          position: "absolute",
+          top: "15px",
+          right: "15px",
+          width: "55px",
+          height: "55px",
+          borderRadius: "50%",
+          border: darkMode ? "2px solid #6366f1" : "2px solid #4f46e5",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
+        }}
+      />
 
-      {/* Quote text animation */}
+      {/* Mode toggle */}
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          padding: "8px 16px",
+          borderRadius: "20px",
+          border: "none",
+          cursor: "pointer",
+          backgroundColor: darkMode ? "#4b5563" : "#e5e7eb",
+          color: darkMode ? "#f9fafb" : "#111827",
+          fontSize: "0.9rem",
+          transition: "all 0.3s ease"
+        }}
+      >
+        {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
+      </button>
+
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🤖 Adam’s AI</h1>
+
+      {/* Animated quote */}
       <p
         style={{
-          fontSize: "1.3rem",
+          fontSize: "1.2rem",
           maxWidth: "500px",
-          color: "#4b5563",
-          marginBottom: "2rem",
           padding: "0 20px",
           opacity: animateQuote ? 1 : 0,
           transform: animateQuote ? "translateY(0px)" : "translateY(10px)",
-          transition: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          color: darkMode ? "#d1d5db" : "#4b5563",
+          transition: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)"
         }}
       >
         {quote}
       </p>
 
-      {/* Button with Apple-style animation */}
+      {/* Quote Button */}
       <button
         onClick={generateQuote}
         style={{
           backgroundColor: "#6366f1",
           color: "#fff",
-          border: "none",
           padding: "12px 28px",
           borderRadius: "12px",
+          border: "none",
           fontSize: "1.1rem",
           cursor: "pointer",
-          transition: "all 0.25s ease",
-          boxShadow: "0 6px 16px rgba(99,102,241,0.2)",
+          boxShadow: "0 6px 16px rgba(99,102,241,0.25)",
+          transition: "all 0.3s ease"
         }}
-        onMouseDown={(e) => {
-          e.target.style.transform = "scale(0.95)";
-        }}
-        onMouseUp={(e) => {
-          e.target.style.transform = "scale(1)";
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.boxShadow = "0 8px 22px rgba(99,102,241,0.35)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.boxShadow = "0 6px 16px rgba(99,102,241,0.2)";
-        }}
+        onMouseDown={(e) => (e.target.style.transform = "scale(0.95)")}
+        onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
       >
         Generate Quote
       </button>
 
+      {/* Footer */}
       <small
         style={{
           position: "absolute",
           bottom: "12px",
-          color: "#9ca3af",
-          fontSize: "0.85rem",
+          color: darkMode ? "#9ca3af" : "#6b7280",
+          fontSize: "0.85rem"
         }}
       >
         © 2025 Adam’s AI
