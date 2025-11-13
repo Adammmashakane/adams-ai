@@ -29,10 +29,16 @@ export default function App() {
     document.body.style.opacity = 1;
   }, []);
 
-  // Save dark mode preference
   useEffect(() => {
     localStorage.setItem("adamDarkMode", darkMode);
   }, [darkMode]);
+
+  // WhatsApp share link
+  const shareToWhatsApp = () => {
+    const message = encodeURIComponent(`🧠 Adam's AI says:\n\n"${quote}"`);
+    const link = `https://wa.me/?text=${message}`;
+    window.open(link, "_blank");
+  };
 
   return (
     <div
@@ -43,15 +49,47 @@ export default function App() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        backgroundColor: darkMode ? "#111827" : "#f5f7fa",
-        color: darkMode ? "#f3f4f6" : "#111827",
+        background: darkMode
+          ? "linear-gradient(-45deg, #0f172a, #1e293b, #0f172a)"
+          : "linear-gradient(-45deg, #dbeafe, #e0e7ff, #f5f3ff)",
+        backgroundSize: "400% 400%",
+        animation: "gradientMove 12s ease infinite",
         fontFamily: "system-ui, -apple-system",
         transition: "all 0.4s ease-in-out",
         position: "relative",
-        textAlign: "center"
+        textAlign: "center",
       }}
     >
-      {/* Profile picture top right */}
+      {/* Animated gradient keyframes */}
+      <style>{`
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes spinRobot {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+
+      {/* Spinning robot icon */}
+      <div
+        style={{
+          width: "70px",
+          height: "70px",
+          animation: "spinRobot 7s linear infinite",
+          marginBottom: "10px",
+        }}
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png"
+          alt="robot"
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+
+      {/* Profile picture */}
       <img
         src="https://i.postimg.cc/59TPb2S4/ai-avatar.png"
         alt="profile"
@@ -63,11 +101,11 @@ export default function App() {
           height: "55px",
           borderRadius: "50%",
           border: darkMode ? "2px solid #6366f1" : "2px solid #4f46e5",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
         }}
       />
 
-      {/* Mode toggle */}
+      {/* Dark mode toggle */}
       <button
         onClick={() => setDarkMode(!darkMode)}
         style={{
@@ -81,7 +119,7 @@ export default function App() {
           backgroundColor: darkMode ? "#4b5563" : "#e5e7eb",
           color: darkMode ? "#f9fafb" : "#111827",
           fontSize: "0.9rem",
-          transition: "all 0.3s ease"
+          transition: "all 0.3s ease",
         }}
       >
         {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
@@ -89,7 +127,7 @@ export default function App() {
 
       <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🤖 Adam’s AI</h1>
 
-      {/* Animated quote */}
+      {/* Quote animation */}
       <p
         style={{
           fontSize: "1.2rem",
@@ -98,13 +136,13 @@ export default function App() {
           opacity: animateQuote ? 1 : 0,
           transform: animateQuote ? "translateY(0px)" : "translateY(10px)",
           color: darkMode ? "#d1d5db" : "#4b5563",
-          transition: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)"
+          transition: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
         }}
       >
         {quote}
       </p>
 
-      {/* Quote Button */}
+      {/* Generate Quote button */}
       <button
         onClick={generateQuote}
         style={{
@@ -115,22 +153,37 @@ export default function App() {
           border: "none",
           fontSize: "1.1rem",
           cursor: "pointer",
+          marginBottom: "10px",
           boxShadow: "0 6px 16px rgba(99,102,241,0.25)",
-          transition: "all 0.3s ease"
+          transition: "all 0.3s ease",
         }}
-        onMouseDown={(e) => (e.target.style.transform = "scale(0.95)")}
-        onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
       >
         Generate Quote
       </button>
 
-      {/* Footer */}
+      {/* Share to WhatsApp */}
+      <button
+        onClick={shareToWhatsApp}
+        style={{
+          backgroundColor: "#22c55e",
+          color: "#fff",
+          padding: "10px 24px",
+          borderRadius: "8px",
+          border: "none",
+          fontSize: "1rem",
+          cursor: "pointer",
+          boxShadow: "0 6px 16px rgba(34,197,94,0.3)",
+          transition: "all 0.3s ease",
+        }}
+      >
+        Share to WhatsApp 📤
+      </button>
+
       <small
         style={{
           position: "absolute",
           bottom: "12px",
           color: darkMode ? "#9ca3af" : "#6b7280",
-          fontSize: "0.85rem"
         }}
       >
         © 2025 Adam’s AI
